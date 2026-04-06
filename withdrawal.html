@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Withdrawal - ACC INVESTMENT (Demo)</title>
+
+  <style>
+    body {
+      background-color: #000814;
+      color: #d4af37;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #00ff88;
+      font-size: 35px;
+      margin-bottom: 10px;
+    }
+
+    .tag {
+      font-size: 13px;
+      color: #aaa;
+      margin-bottom: 25px;
+    }
+
+    form {
+      max-width: 400px;
+      margin: auto;
+      background-color: #001d3d;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px #00ff88;
+    }
+
+    input, select {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    button {
+      background-color: #00ff88;
+      color: #000;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #d4af37;
+    }
+
+    .note {
+      font-size: 12px;
+      color: #bbb;
+      margin-top: 10px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+    }
+
+    .modal-content {
+      background-color: #001d3d;
+      margin: 15% auto;
+      padding: 20px;
+      border-radius: 15px;
+      width: 80%;
+      max-width: 350px;
+      box-shadow: 0 0 15px #00ff88;
+    }
+  </style>
+
+  <script>
+    const demo = {
+      amount: "4,500 PLN",
+      fee: "500 PLN"
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("amount").value = demo.amount;
+
+      // Optional localization
+      fetch("https://ipapi.co/json/")
+        .then(r => r.json())
+        .then(data => {
+          if (data.country_code === "PL") {
+            document.querySelector("h1").innerText = "Wypłata (Demo)";
+            document.getElementById("withdrawBtn").innerText = "Złóż wniosek";
+            document.getElementById("backBtn").innerText = "Powrót";
+          }
+        })
+        .catch(() => {});
+    });
+
+    function submitForm() {
+      document.getElementById("modalText").innerText =
+        "Demo request submitted.\n\nEstimated fee: " + demo.fee;
+      document.getElementById("feeModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("feeModal").style.display = "none";
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Withdrawal (Demo)</h1>
+  <div class="tag">This is a demo form. No real transactions are processed.</div>
+
+  <form onsubmit="event.preventDefault(); submitForm();">
+    <input type="text" placeholder="Account Number (Demo)" required><br>
+    <input type="text" placeholder="Account Name (Demo)" required><br>
+
+    <select required>
+      <option value="">Select Bank (Demo)</option>
+      <option>Revolut (Demo)</option>
+      <option>Sample Bank A</option>
+      <option>Sample Bank B</option>
+    </select><br>
+
+    <input type="text" id="amount" readonly><br>
+
+    <button type="submit" id="withdrawBtn">Submit Request</button>
+    <button type="button" id="backBtn" onclick="window.location.href='index.html'">Back</button>
+
+    <div class="note">Fees shown are estimates for demonstration only.</div>
+  </form>
+
+  <div id="feeModal" class="modal">
+    <div class="modal-content">
+      <p id="modalText"></p>
+      <button onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</body>
+</html>
